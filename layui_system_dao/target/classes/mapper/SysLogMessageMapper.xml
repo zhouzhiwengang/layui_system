@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzg.mapper.SysLogMessageMapper">
+  <resultMap id="BaseResultMap" type="com.zzg.entity.SysLogMessage">
+	  	<id column="sid" jdbcType="VARCHAR" property="sid" />
+	    <result column="record_sid" jdbcType="VARCHAR" property="recordSid" />
+	    <result column="state" jdbcType="VARCHAR" property="state" />
+	    <result column="send_dt" jdbcType="TIMESTAMP" property="sendDt" />
+	    <result column="content" jdbcType="VARCHAR" property="content" />
+	    <result column="create_dt" jdbcType="TIMESTAMP" property="createDt" />
+  </resultMap>
+</mapper>

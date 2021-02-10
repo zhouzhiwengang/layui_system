@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzg.mapper.BaoanPrivilegeMapper">
+  <resultMap id="BaseResultMap" type="com.zzg.entity.BaoanPrivilege">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="privilege_name" jdbcType="VARCHAR" property="privilegeName" />
+    <result column="privilege_code" jdbcType="VARCHAR" property="privilegeCode" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="order_rank" jdbcType="INTEGER" property="orderRank" />
+    <result column="privilege_type" jdbcType="VARCHAR" property="privilegeType" />
+    <result column="privilege_description" jdbcType="VARCHAR" property="privilegeDescription" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="created_dt" jdbcType="TIMESTAMP" property="createdDt" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="updated_dt" jdbcType="TIMESTAMP" property="updatedDt" />
+    <result column="icon_name" jdbcType="INTEGER" property="iconName" />
+    <result column="delete_flag" jdbcType="INTEGER" property="deleteFlag" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapVo" type="com.zzg.vo.BaoanPrivilegeVo" extends="BaseResultMap">
+  	<collection column="id" property="children" javaType="java.util.ArrayList"
+ofType="com.zzg.entity.BaoanPrivilege" select="getNextNodeTree"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, privilege_name, privilege_code, pid, url, order_rank, privilege_type, privilege_description, 
+    state, created_by, created_dt, version, updated_by, updated_dt, icon_name, delete_flag
+  </sql>
+  
+  <sql id="condition">
+  	<if test="privilegeType != null and privilegeType != '' ">
+  		and baoan_privilege.privilege_type = #{privilegeType}
+  	</if>
+  	<if test="pid != null and pid != '' ">
+  		and baoan_privilege.pid = #{pid}
+  	</if>
+  </sql>
+  
+  <sql id="conditionVo">
+  	<if test="vo.privilegeType != null and vo.privilegeType != '' ">
+  		and baoan_privilege.privilege_type = #{vo.privilegeType}
+  	</if>
+  	<if test="vo.pid != null and vo.pid != '' ">
+  		and baoan_privilege.pid = #{vo.pid}
+  	</if>
+  </sql>
+  
+  <select id="getNextNodeTree" resultMap="BaseResultMapVo">
+	SELECT
+		<include refid="Base_Column_List"/>
+	FROM baoan_privilege
+	WHERE pid = #{id}
+ </select>
+ 
+ <select id="selectList" parameterType="map" resultMap="BaseResultMapVo">
+  		select
+		<include refid="Base_Column_List"></include>
+  		FROM baoan_privilege
+  		WHERE 1 = 1 
+  		<include refid="condition"></include>
+  </select>
+  <select id="selectPage" parameterType="map" resultMap="BaseResultMapVo">
+  		select
+		<include refid="Base_Column_List"></include>
+  		FROM baoan_privilege
+  		WHERE 1 = 1 
+  		<include refid="conditionVo"></include>
+  </select>
+</mapper>
